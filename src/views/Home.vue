@@ -15,6 +15,7 @@
         </el-dropdown>
       </el-header>
       <el-container>
+        <!-- 侧边栏 -->
         <el-aside width="200px">
           <el-menu router unique-opened>
             <el-submenu :index="index.toString()" v-for="(item, index) in routes"
@@ -113,11 +114,9 @@ export default {
     margin-left: 8px;
   }
   .home_welcome {
-    
+    text-align: center;
     font-size: 30px;
     color: #4078aa;
-    text-align: center;
-
-    
+    padding-top: 50px;
   }
 </style>
