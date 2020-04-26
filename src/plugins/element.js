@@ -11,7 +11,7 @@ import {
   Menu, Submenu, MenuItem,
   Breadcrumb, BreadcrumbItem,
   Tabs,TabPane,
-  Table,TableColumn,Dialog,Tag
+  Table,TableColumn,Dialog,Tag,Option,Select,
 
 } from 'element-ui'
 
@@ -38,6 +38,8 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Dialog)
 Vue.use(Tag)
+Vue.use(Option)
+Vue.use(Select)
 // 把Messag挂载到Vue的原型对象上
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
