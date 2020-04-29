@@ -14,6 +14,13 @@
         <el-table-column prop="id" label="编号" width="56"> </el-table-column>
         <el-table-column prop="name" label="职位名称" width="180"> </el-table-column>
         <el-table-column prop="createDate" label="创建时间" width="200"> </el-table-column>
+         <el-table-column prop="enabled" label="是否启用" width="200"> 
+         <template slot-scope="scope">
+           <el-tag v-if="scope.row.enabled" type="success">已启用</el-tag>
+           <el-tag v-else type="warning">未启用</el-tag>
+           </template>   
+
+         </el-table-column>
         <el-table-column fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="showEditDialog(scope.$index, scope.row)">编辑</el-button>
@@ -30,6 +37,12 @@
       <div>
         <el-tag>职位名称</el-tag>
         <el-input class="update_input" size="small" v-model="updatePos.name"></el-input>
+      </div>
+      <br>
+      <!-- 修改是否启用 -->
+      <div>
+        <el-tag>是否启用</el-tag>
+        <el-switch v-model="updatePos.enabled" class="update_input"></el-switch>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="small" >取 消</el-button>
@@ -52,7 +65,8 @@ export default {
       positions: [],
       // 更新按钮的数据
       updatePos: {
-        name: ''
+        name: '',
+        enabled:true
       },
       // 对话框显示与否的标志位
       dialogVisible: false,

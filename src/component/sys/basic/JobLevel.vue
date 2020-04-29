@@ -21,10 +21,16 @@
         <el-table :data="joblevels" stripe border type="small" style="width: 70%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="56"> </el-table-column>
         <el-table-column prop="id" label="编号" width="56"> </el-table-column>
-        <el-table-column prop="name" label="职称" width="180"> </el-table-column>
-        <el-table-column prop="titleLevel" label="级别" width="180"> </el-table-column>
-        <el-table-column prop="createDate" label="创建时间" width="200"> </el-table-column>
-        <el-table-column fixed="right" label="操作">
+        <el-table-column prop="name" label="职称" width="150"> </el-table-column>
+        <el-table-column prop="titleLevel" label="级别" width="100"> </el-table-column>
+        <el-table-column prop="createDate" label="创建时间" width="180"> </el-table-column>
+        <el-table-column prop="enabled" label="是否启用" width="150"> 
+         <template slot-scope="scope">
+           <el-tag v-if="scope.row.enabled" type="success">已启用</el-tag>
+           <el-tag v-else type="warning">未启用</el-tag>
+           </template>   
+        </el-table-column>
+        <el-table-column fixed="right" width="200" label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="showEditDialog(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -42,6 +48,7 @@
         <el-input class="update_input" size="small" v-model="updateJob.name"></el-input>
       </div>
       <br>
+      
       <div>
         <el-tag>等级</el-tag>
 
@@ -54,6 +61,11 @@
                         :value="item">
                 </el-option>
             </el-select>
+      </div>
+      <br>
+       <div>
+        <el-tag>是否启用</el-tag>
+        <el-switch v-model="updateJob.enabled" class="update_input"></el-switch>
       </div>
        <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="small" >取 消</el-button>
@@ -74,6 +86,7 @@ export default {
             updateJob:{
                 name:'',
                  titleLevel: '',
+                  enabled:true
             },
             joblevels:[],
             titleLevels:[
