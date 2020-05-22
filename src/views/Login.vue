@@ -1,7 +1,8 @@
 <template>
     <div>
         <!-- 登录表单区 -->
-        <el-form :model="loginForm" label-width="0px" :rules="loginFormRule" class="login_container" ref="loginFormRef">
+        <el-form :model="loginForm" label-width="0px" :rules="loginFormRule"
+         class="login_container" ref="loginFormRef" v-loading="loading" element-loading-text="正在加载...">
             <h3 class="login_title">系统登录</h3>
             <!-- 用户名 -->
           <el-form-item prop="username">
@@ -11,6 +12,15 @@
           <el-form-item prop="password">
               <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" show-password></el-input>
           </el-form-item>
+          <!-- 验证码-->
+            <el-form-item prop="code">
+                <el-input v-model="loginForm.code" prefix-icon ="iconfont icon-mima"
+                          placeholder="点击图片更换验证码" @keydown.enter.native="login" 
+                          style="width: 250px; margin-right:5px;float:left" >
+                          </el-input>
+                <el-image :src="codeUrl" @click="refreshCode" alt="加载失败" 
+                style="cursor: pointer"></el-image> 
+            </el-form-item>
           <!-- 记住我 -->
           <el-checkbox v-model="checked" class="login_remember">记住我</el-checkbox>
           <!-- 登录按钮 -->
@@ -24,15 +34,21 @@
 <script>
 import {postKeyValueRequest} from '../utils/api'
 export default{
-name: '',
+name: 'Login',
 components:{},
 data() {
     return{
+
+        // 加载
+        loading:false,
         // 登录表单的数据绑定对象
         loginForm:{
             username: 'admin',
-            password: '123'
+            password: '123',
+            code:''
         },
+        // 验证码
+        codeUrl:'/verifyCode?time=' +new Date().getTime(),
         checked: true,
         loginFormRule:{
             //验证用户名是否合法
@@ -44,7 +60,8 @@ data() {
             password:[
                 {required:true,$message:'请输入密码',trigger:'blur'},
                 {min:3,max:20,$message:'长度在3到20个字符',trigger:'blur'}
-            ]
+            ],
+            code:[{required:true,$message:'请输入验证码',trigger:'blur'}]
         }
     }
 },
@@ -60,7 +77,9 @@ methods: {
         if (!valid) {
           return this.$message.error('用户名或密码格式不正确，请重新输入')
         }
+        this.loading=true
         const resp = await this.postKeyValueRequest('/doLogin', this.loginForm)
+        this.loading=false
         console.log(resp)
         if (resp) {
           console.log(resp.obj)
@@ -72,8 +91,14 @@ methods: {
           let path = this.$route.query.redirect
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
           await this.$router.replace((path === '/' || path === undefined) ? '/home' : path)
+        }else{
+            // 登录失败刷新的验证码
+           this.refreshCode() 
         }
       })
+    },
+    refreshCode(){
+        this.codeUrl='/verifyCode?time=' +new Date().getTime()
     }
   }
 }

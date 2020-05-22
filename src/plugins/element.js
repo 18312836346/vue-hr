@@ -12,7 +12,9 @@ import {
   Breadcrumb, BreadcrumbItem,
   Tabs,TabPane,
   Table,TableColumn,Dialog,Tag,Option,Select,Switch,
-  Collapse, CollapseItem, Card, Tree
+  Collapse, CollapseItem, Card, Tree,Loading,Image,Pagination,Upload,DatePicker,
+  RadioGroup,Radio
+
 
 } from 'element-ui'
 
@@ -46,6 +48,13 @@ Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Card)
 Vue.use(Tree)
+Vue.use(Loading)
+Vue.use(Image)
+Vue.use(Pagination)
+Vue.use(Upload)
+Vue.use(DatePicker)
+Vue.use(RadioGroup)
+Vue.use(Radio)
 
 // 把Messag挂载到Vue的原型对象上
 Vue.prototype.$message = Message
